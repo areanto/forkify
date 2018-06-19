@@ -1,4 +1,5 @@
 import Search from "./models/Search";
+import Recipe from "./models/Recipe";
 import {
     elements,
     renderLoader,
@@ -54,29 +55,32 @@ elements.searchResultsPages.addEventListener("click", e => {
 const controlRecipe = async () => {
     // Get recipe ID from url
     const id = window.location.hash.replace("#", "");
-  
+
     if (id) {
-      // Prepare UI for results
-  
-      // Create new recipe object
-      state.recipe = new Recipe(id);
-  
-      try {
-        // Get recipe data
-        await state.recipe.getRecipe();
-  
-        // Calculate servings and time
-        state.recipe.calcTime();
-        state.recipe.calcServings();
-  
-        console.log(state.recipe);
-      } catch (error) {
-        alert("Error in Recipeview");
-      }
-  
-      // Render recipe
+        // Prepare UI for results
+
+        // Create new recipe object
+        state.recipe = new Recipe(id);
+
+        try {
+            // Get recipe data
+            await state.recipe.getRecipe();
+
+            // Parsing Ingredients Text
+            state.recipe.parseIngredients();
+
+            // Calculate servings and time
+            state.recipe.calcTime();
+            state.recipe.calcServings();
+
+            console.log(state.recipe);
+        } catch (error) {
+            alert("Error in Recipeview");
+        }
+
+        // Render recipe
     }
-  };
-  
-  // fire controlrecipe if the hashchange or on pageload
-  ["hashchange", "load"].forEach(event => addEventListener(event, controlRecipe));
+};
+
+// fire controlrecipe if the hashchange or on pageload
+["hashchange", "load"].forEach(event => addEventListener(event, controlRecipe));

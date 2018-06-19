@@ -1,10 +1,10 @@
 import axios from "axios";
-export {
+import {
     proxy,
     key,
     url
 }
-from "config";
+from "../config";
 
 export default class Search {
     constructor(query) {
