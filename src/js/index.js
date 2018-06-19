@@ -7,13 +7,6 @@ import {
 import * as searchView from "./views/searchView";
 
 
-/** Global state of the app
- * - Search Object
- * - Current recipe object
- * - Shopping list object
- * - Liked recipes object
- */
-
 const state = {};
 const controlSearch = async () => {
     // 1. Get query from view
