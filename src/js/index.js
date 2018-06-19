@@ -6,8 +6,10 @@ import {
 } from "./views/base";
 import * as searchView from "./views/searchView";
 
-
 const state = {};
+
+// SEARCH CONTROLLER
+
 const controlSearch = async () => {
     // 1. Get query from view
     const query = searchView.getInput();
@@ -46,3 +48,35 @@ elements.searchResultsPages.addEventListener("click", e => {
     }
 
 })
+
+// RECIPE CONTROLLER
+
+const controlRecipe = async () => {
+    // Get recipe ID from url
+    const id = window.location.hash.replace("#", "");
+  
+    if (id) {
+      // Prepare UI for results
+  
+      // Create new recipe object
+      state.recipe = new Recipe(id);
+  
+      try {
+        // Get recipe data
+        await state.recipe.getRecipe();
+  
+        // Calculate servings and time
+        state.recipe.calcTime();
+        state.recipe.calcServings();
+  
+        console.log(state.recipe);
+      } catch (error) {
+        alert("Error in Recipeview");
+      }
+  
+      // Render recipe
+    }
+  };
+  
+  // fire controlrecipe if the hashchange or on pageload
+  ["hashchange", "load"].forEach(event => addEventListener(event, controlRecipe));
