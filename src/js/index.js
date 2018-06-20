@@ -6,6 +6,7 @@ import {
     clearLoader
 } from "./views/base";
 import * as searchView from "./views/searchView";
+import * as recipeView from "./views/recipeView";
 
 const state = {};
 
@@ -58,6 +59,8 @@ const controlRecipe = async () => {
 
     if (id) {
         // Prepare UI for results
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
 
         // Create new recipe object
         state.recipe = new Recipe(id);
@@ -79,6 +82,8 @@ const controlRecipe = async () => {
         }
 
         // Render recipe
+        clearLoader();
+        recipeView.renderRecipe(state.recipe);
     }
 };
 
