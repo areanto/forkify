@@ -16,12 +16,12 @@ export const clearResults = () => {
 export const hightlightActive = id => {
     const arrRes = Array.from(document.querySelectorAll(".results__link"));
     arrRes.forEach(el => {
-      el.classList.remove("results__link--active");
+        el.classList.remove("results__link--active");
     });
     document
-      .querySelector(`a[href="#${id}"]`)
-      .classList.add("results__link--active");
-  };
+        .querySelector(`a[href="#${id}"]`)
+        .classList.add("results__link--active");
+};
 
 
 const renderRecipe = recipe => {
