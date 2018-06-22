@@ -149,18 +149,32 @@ const controlLike = () => {
         // toggle the like button
         likesView.toggleLikeBtn(true);
         // add liked recipe to liked-list UI
-        likesView.rednerLikeMenu(newLike);
+        likesView.renderLikeMenu(newLike);
     } else {
         // remove liked recipe from state
         state.likes.deleteLike(currentId);
         // toggle the like button
         likesView.toggleLikeBtn(false);
-        // remove liked recipe frin liked-list UI
+        // remove liked recipe from liked-list UI
         likesView.deleteLike(currentId);
     }
 
     likesView.toggleLikeMenu(state.likes.likesCount());
 };
+
+// on pageload, restore likes from localstorage
+window.addEventListener("load", () => {
+    state.likes = new Likes();
+
+    // read the data from localstorage
+    state.likes.readData();
+
+    // render the items to the list menu
+    state.likes.likes.forEach(like => likesView.renderLikeMenu(like));
+
+    // set list-menu btn visibity
+    likesView.toggleLikeMenu(state.likes.likesCount());
+});
 
 // Update servings button event handler
 elements.recipe.addEventListener("click", e => {
