@@ -8,8 +8,10 @@ import {
 } from "./views/base";
 import * as searchView from "./views/searchView";
 import * as recipeView from "./views/recipeView";
+import * as listView from "./views/listView";
 
 const state = {};
+window.state = state;
 
 // SEARCH CONTROLLER
 
@@ -104,7 +106,7 @@ const controlList = () => {
     // Add all the ingredients to the list
     state.recipe.ingredients.forEach(el => {
       const item = state.list.addItems(el.count, el.unit, el.ingredient);
-      
+      listView.renderItem(item);
     });
   };
   
@@ -116,7 +118,7 @@ const controlList = () => {
     // delete and update the list
     if (e.target.matches(".shopping__delete, .shopping__delete *")) {
       state.list.deleteItem(id);
-      
+      listView.deleteItem(id);
     } else if (e.target.matches(".shopping__count-value")) {
       // get the new value
       const value = parseFloat(e.target.value, 10);
