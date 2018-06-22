@@ -94,22 +94,50 @@ const controlRecipe = async () => {
 // fire controlrecipe if the hashchange or on pageload
 ["hashchange", "load"].forEach(event => addEventListener(event, controlRecipe));
 
-// Update servings button event handler
-elements.recipe.addEventListener("click", e => {
-    if (e.target.matches(".btn-decrease, .btn-decrease *")) {
-        // decrease button clicked
-        if (state.recipe.servings > 1) {
-            state.recipe.updateServings("dec");
-            recipeView.updateRecipeServings(state.recipe);
-        }
-    } else if (e.target.matches(".btn-increase, .btn-increase *")) {
-        // increase button clicked
-        state.recipe.updateServings("inc");
-        recipeView.updateRecipeServings(state.recipe);
+
+ // LIST CONTROLLER
+ 
+const controlList = () => {
+    // create a new list, if none exists yet
+    if (!state.list) state.list = new List();
+  
+    // Add all the ingredients to the list
+    state.recipe.ingredients.forEach(el => {
+      const item = state.list.addItems(el.count, el.unit, el.ingredient);
+      
+    });
+  };
+  
+  // Delete and update list items
+  elements.shopping.addEventListener("click", e => {
+    // get the id of the clicked element
+    const id = e.target.closest(".shopping__item").dataset.itemid;
+  
+    // delete and update the list
+    if (e.target.matches(".shopping__delete, .shopping__delete *")) {
+      state.list.deleteItem(id);
+      
+    } else if (e.target.matches(".shopping__count-value")) {
+      // get the new value
+      const value = parseFloat(e.target.value, 10);
+      // Update in list
+      state.list.updateItems(id, value);
     }
-
-    console.log(state.recipe);
-
-});
-
-window.l = new List();
+  });
+  
+  // Update servings button event handler
+  elements.recipe.addEventListener("click", e => {
+    if (e.target.matches(".btn-decrease, .btn-decrease *")) {
+      // decrease button clicked
+      if (state.recipe.servings > 1) {
+        state.recipe.updateServings("dec");
+        recipeView.updateRecipeServings(state.recipe);
+      }
+    } else if (e.target.matches(".btn-increase, .btn-increase *")) {
+      // increase button clicked
+      state.recipe.updateServings("inc");
+      recipeView.updateRecipeServings(state.recipe);
+    } else if (e.target.matches(".recipe__btn-add, .recipe__btn-add *")) {
+      controlList();
+    }
+  });
